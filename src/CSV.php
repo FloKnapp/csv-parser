@@ -3,6 +3,7 @@
 namespace Webasics\CsvParser;
 
 use Webasics\CsvParser\Exception\FileNotFoundException;
+use Webasics\CsvParser\Exception\HeaderColumnMismatchException;
 
 /**
  * @package Webasics\CsvParser
@@ -26,8 +27,6 @@ class CSV
      * @param string $enclosure
      * @param string $escape
      * @return array
-     *
-     * @throws FileNotFoundException
      */
     public static function parseFromFile(
         string $filename,
@@ -73,6 +72,8 @@ class CSV
      * @param string $enclosure
      * @param string $escape
      * @return array
+     *
+     * @throws HeaderColumnMismatchException
      */
     private static function parse(string $data, bool $hasHeader, string $separator, string $enclosure, string $escape): array
     {
@@ -95,10 +96,12 @@ class CSV
                 continue;
             }
 
-            // Ignore rows which doesn't match the amount of header columns
-            if (count($row) === count($header)) {
-                $result[] = array_combine($header, $row);
+            // Throw exception when rows didn't match the amount of header columns
+            if (count($row) !== count($header)) {
+                throw new HeaderColumnMismatchException('The amount of columns and headers arent\'t the same. Aborting.');
             }
+
+            $result[] = array_combine($header, $row);
 
         }
 
