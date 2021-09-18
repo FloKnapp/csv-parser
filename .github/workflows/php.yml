@@ -27,12 +27,8 @@ jobs:
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
 
-  test:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
     - name: Run test suite
-      run: vendor/bin/phpunit
+      run: composer test
 
   finish:
     needs: test
