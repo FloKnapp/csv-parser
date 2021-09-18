@@ -21,6 +21,6 @@
         "phpunit/phpunit": "9.5.9"
     },
     "scripts": {
-        "test": "vendor/bin/phpunit -c phpunit.xml"
+        "test": "XDEBUG_MODE=coverage vendor/bin/phpunit -c phpunit.xml --coverage-clover ./coverage.xml"
     }
 }
