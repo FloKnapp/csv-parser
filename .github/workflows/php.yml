@@ -30,7 +30,7 @@ jobs:
     - name: Run test suite
       run: composer test
 
-    - name: Coveralls GitHub Action
-      uses: coverallsapp/github-action@1.1.3
+    - name: Codecov
+      uses: codecov/codecov-action@v2.1.0
       with:
-        github-token: ${{ secrets.github_token }}
+        token: ${{ secrets.CODECOV_TOKEN }}
