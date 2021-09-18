@@ -2,50 +2,81 @@
 
 namespace Webasics\CsvParser;
 
+use Webasics\CsvParser\Exception\FileNotFoundException;
+
 /**
  * @package Webasics\CsvParser
  * @author Flo Knapp <office@florianknapp.de>
  */
 class CSV
 {
+
+    public const SEPARATOR_DEFAULT = ',';
+    public const SEPARATOR_SEMICOLON = ';';
+
+    public const ENCLOSURE_DEFAULT = '"';
+    public const ENCLOSURE_SINGLE_QUOTE = '\'';
+
+    public const ESCAPE_DEFAULT = '\\';
+
     /**
      * @param string $filename
+     * @param bool   $hasHeader
      * @param string $separator
      * @param string $enclosure
      * @param string $escape
      * @return array
+     *
+     * @throws FileNotFoundException
      */
-    public static function parseFromFile(string $filename, string $separator = ',', string $enclosure = '"', string $escape = '\\'): array
-    {
+    public static function parseFromFile(
+        string $filename,
+        bool $hasHeader = true,
+        string $separator = self::SEPARATOR_DEFAULT,
+        string $enclosure = self::ENCLOSURE_DEFAULT,
+        string $escape = self::ESCAPE_DEFAULT
+    ): array {
+
         if (!\file_exists($filename)) {
-            throw new \LogicException("File $filename couldn't be found.");
+            throw new FileNotFoundException("File $filename couldn't be found.");
         }
 
         $data = file_get_contents($filename);
-        return static::parse($data, $separator, $enclosure, $escape);
+        return static::parse($data, $hasHeader, $separator, $enclosure, $escape);
+
     }
 
     /**
      * @param string $data
+     * @param bool   $hasHeader
      * @param string $separator
      * @param string $enclosure
      * @param string $escape
      * @return array
      */
-    public static function parseFromString(string $data, string $separator = ',', string $enclosure = '"', string $escape = '\\'): array
-    {
-        return static::parse($data, $separator, $enclosure, $escape);
+    public static function parseFromString(
+        string $data,
+        bool $hasHeader = true,
+        string $separator = self::SEPARATOR_DEFAULT,
+        string $enclosure = self::ENCLOSURE_DEFAULT,
+        string $escape = self::ESCAPE_DEFAULT
+    ): array {
+
+        return static::parse($data, $hasHeader, $separator, $enclosure, $escape);
+
     }
 
     /**
      * @param string $data
+     * @param bool   $hasHeader
      * @param string $separator
      * @param string $enclosure
      * @param string $escape
      * @return array
      */
-    private static function parse(string $data, string $separator = ',', string $enclosure = '"', string $escape = '\\'): array
+    private static function parse(string $data, bool $hasHeader, string $separator, string $enclosure, string $escape): array
     {
+        $header = null;
         $result = [];
         $rows   = str_getcsv($data, PHP_EOL);
 
@@ -53,15 +84,21 @@ class CSV
             return str_getcsv(str_replace("\xEF\xBB\xBF", '', $row), $separator, $enclosure, $escape);
         }, $rows);
 
-        $header = array_shift($contents);
+        if (true === $hasHeader) {
+            $header = array_shift($contents);
+        }
 
-        foreach ($contents as $rowIndex => $row) {
+        foreach ($contents as $row) {
 
-            if (count($row) !== count($header)) {
+            if (false === $hasHeader) {
+                $result[] = $row;
                 continue;
             }
 
-            $result[] = array_combine($header, $row);
+            // Ignore rows which doesn't match the amount of header columns
+            if (count($row) === count($header)) {
+                $result[] = array_combine($header, $row);
+            }
 
         }
 
