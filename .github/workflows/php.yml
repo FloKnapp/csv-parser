@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Run test suite
-      run: composer run-script test
+      run: vendor/bin/phpunit
 
   finish:
     needs: test
