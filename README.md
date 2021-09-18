@@ -3,7 +3,10 @@
 
 # CSV Parser for PHP
 
-Parse .csv files into a key associated array.
+Parse CSV files into an array. 
+
+This library doesn't provide any advanced functions such as line counts or automatic detection of a header.
+Therefore, it's super-fast and simple to use.
 
 ## Installation
 
