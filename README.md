@@ -24,7 +24,7 @@ $data = CSV::parseFromFile('./your-csv-file.csv');
 Or you can pass the contents of the file directly via:
 
 ```php
-$data = CSV::parseFromString('firstname, lastname,birthdate,city,country');
+$data = CSV::parseFromString('firstname,lastname,birthdate,city,country');
 ```
 
 You can also determine if a header row is present in your data with the second argument ```$hasHeader``` set to true, which is the default setting.
