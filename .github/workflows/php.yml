@@ -1,4 +1,4 @@
-name: Build
+name: Build, Test and Process
 
 on:
   push:
@@ -8,9 +8,7 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
 
@@ -29,5 +27,18 @@ jobs:
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
 
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
     - name: Run test suite
       run: composer run-script test
+
+  finish:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+    - name: Coveralls GitHub Action
+      uses: coverallsapp/github-action@1.1.3
+      with:
+        github-token: ${{ secrets.github_token }}
