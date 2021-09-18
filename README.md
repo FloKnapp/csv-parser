@@ -1,3 +1,4 @@
+![example workflow](https://github.com/webasics/csv-parser/actions/workflows/php.yml/badge.svg)
 [![codecov](https://codecov.io/gh/webasics/csv-parser/branch/main/graph/badge.svg?token=P0Y8PPHJ64)](https://codecov.io/gh/webasics/csv-parser)
 
 # CSV Parser for PHP
