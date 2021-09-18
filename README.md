@@ -32,7 +32,7 @@ $data = CSV::parseFromString('firstname,lastname,birthdate,city,country');
 
 You can also determine if a header row is present in your data with the second argument ```$hasHeader``` set to true, which is the default setting.
 
-When you're providing a header, the resulting output would contain the header columns as keys according to the columns.
+When your dataset is providing a header, the resulting output would contain the header columns as keys according to the columns.
 
 #### Example
 
@@ -46,7 +46,7 @@ array(5) {
 }
 ```
 
-When you're not providing a header row, you'd get the output as an indexed array.
+When your dataset providing a header row, you'd get the output as an indexed array.
 
 #### Example
 
@@ -79,4 +79,6 @@ vendor/bin/phpunit -c phpunit.xml
 - Create a pull request against webasics/csv-parser
 - After it's reviewed successfully, your changes are getting merged
 
-Please provide tests as I'm only accepting fully covered changes. A bonus would be if you're also providing tests for cases which aren't that usual, like the examples in the "Tests" section above.
+Please provide tests as I'm only accepting fully covered changes. A bonus would be if you're also providing tests for cases which aren't that usual, like the examples in the "Tests" section above. 
+
+Thank you in advance if you're considering contributing to this project!
