@@ -32,21 +32,21 @@ $data = CSV::parseFromString('firstname,lastname,birthdate,city,country');
 
 You can also determine if a header row is present in your data with the second argument ```$hasHeader``` set to true, which is the default setting.
 
-When your dataset is providing a header, the resulting output would contain the header columns as keys according to the columns.
+When your dataset is providing a header, the resulting output would contain the header columns as keys according to the column count.
 
 #### Example
 
 ```php
 array(5) {
     ["firstname"] => string(4) "John"
-    ["lastname"] => string(3) "Doe"
+    ["lastname"]  => string(3) "Doe"
     ["birthdate"] => string(10) "01.01.1970"
-    ["city"] => string(6) "Munich"
-    ["country"] => string(7) "Germany"
+    ["city"]      => string(6) "Munich"
+    ["country"]   => string(7) "Germany"
 }
 ```
 
-When your dataset providing a header row, you'd get the output as an indexed array.
+When your dataset doesn't provide a header row, you'll get the output as an indexed array. Note that you'll have to set the parameter `$hasHeader` to `false`. Otherwise you'll receive the actual column values from the first row as the keys.
 
 #### Example
 
